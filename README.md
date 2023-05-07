@@ -1,7 +1,7 @@
 # 23-OSS-miniproject
 <p align="center"><img src="https://user-images.githubusercontent.com/126942021/236680279-0485c96e-ab8d-4de1-998c-130c58f858db.jpg" width="50%" height="50%"></p>
 
-<center><img src="https://user-images.githubusercontent.com/126942021/236680278-1983277e-69e6-495e-abca-171ea1c8a0bf.jpg" width="50%" height="50%"></center>
+<p align="center"><img src="https://user-images.githubusercontent.com/126942021/236680278-1983277e-69e6-495e-abca-171ea1c8a0bf.jpg" width="50%" height="50%"></p>
 
 
 ## 주제
