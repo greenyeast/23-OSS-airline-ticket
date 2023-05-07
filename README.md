@@ -1,7 +1,7 @@
 # 23-OSS-miniproject
 
 ## 주제
-Airplane 예매 시스템
+- Airplane 예매 시스템
 
 ![airplane-gc0a876fae_1920](https://user-images.githubusercontent.com/126942021/236680279-0485c96e-ab8d-4de1-998c-130c58f858db.jpg)
 
