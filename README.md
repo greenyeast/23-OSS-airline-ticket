@@ -3,16 +3,15 @@
 ## 주제
 Airplane 예매 시스템
 
+![airplane-gc0a876fae_1920](https://user-images.githubusercontent.com/126942021/236680279-0485c96e-ab8d-4de1-998c-130c58f858db.jpg)
+
+![map-g61c1d190d_1920](https://user-images.githubusercontent.com/126942021/236680278-1983277e-69e6-495e-abca-171ea1c8a0bf.jpg)
+
 ## 소개
  - 항공편 예매 시스템입니다.
  - 로그인 기능을 통하여 관리자와 이용자의 접근 권한을 다르게 두었습니다.
  - 이용자들의 평점 시스템을 통하여 각 항공사의 랭킹을 표시해줍니다.
  - 각 항공편의 가격을 비교하여 보여줌으로써 이용자가 원하는 티켓을 선택할 수 있도록 도움을 줍니다.
-
-## 이미지
-![map-g61c1d190d_1920](https://user-images.githubusercontent.com/126942021/236680278-1983277e-69e6-495e-abca-171ea1c8a0bf.jpg)
-![airplane-gc0a876fae_1920](https://user-images.githubusercontent.com/126942021/236680279-0485c96e-ab8d-4de1-998c-130c58f858db.jpg)
-
 
 ## 기능
 #### 공통
