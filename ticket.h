@@ -17,7 +17,7 @@ typedef struct{
 
 // 비행기 고유 데이터
 typedef struct{
-    char airPlaneName[100];  // HAN 122
+    char airPlaneName[100];  // HAN122
     char gate;    // A,B...
     char department[100]; // 목적지
     char departureTime[10];  // 출발시간
@@ -26,11 +26,26 @@ typedef struct{
 } Airplane;
 
 
-//Create
+int selectMenu();
+// Create
+int createUser(User *u);
+int createTicket(Ticket *t, char *userid);
 
+// Read
+void listAirplaneTime(Airplane *ap, int count);    // 예매가능한 비행기표 목록 (user)
+void listReservedTicket(Ticket *t, int count, char *userid);      // 내가 예매한 항공권 목록 (user)
 
-//Read
+// Update
+// int updateAirplaneTime(Airplane *ap, char *userid);       //예매 비행기표 시간 변경 (user)
+int updateTicket(Ticket *t, char *userid);// 예매 정보 변경 (user/admin)
 
-//Update
+// Delete
+int deleteTicket(Ticket *t);// 예매 비행기표 삭제 (user)
 
-//Delete
+// 데이터 파일 저장
+// 회원 데이터
+// 항공편 데이터
+
+// 검색
+// 목적지에 따른 비행기 목록 검색
+//
