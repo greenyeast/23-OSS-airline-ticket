@@ -2,3 +2,4 @@
 teamProject.code-workspace
 img/
 .gitignore
+*.exe
