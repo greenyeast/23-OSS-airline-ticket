@@ -63,9 +63,9 @@ with some photos and detail usage of Admin scenario
   - 티켓 예매
   - 예매 정보 변경
   - 예매 취소
-  - 이용했던 항공사 평점 부여
+<!--   - 이용했던 항공사 평점 부여
   - 목적지 검색시 가격 비교 목록
-  - 항공사 랭킹 별 목록 확인
+  - 항공사 랭킹 별 목록 확인 -->
 
 
 ## Team ✨
