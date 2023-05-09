@@ -72,7 +72,7 @@ with some photos and detail usage of Admin scenario
 -----------
 환상적인 호흡을 자랑하는 팀 구성원입니다.
 
-<table>
+<table style="border-collapse: collapse;">
     <tr>
         <td align="center">
         <a href="https://github.com/greenyeast"><img src="./img/avatar_woman.png" width="100px;" alt="Donavon West"/><br /><sub><b>김가영</b></sub></a><br />💻
