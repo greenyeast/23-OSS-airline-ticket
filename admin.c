@@ -23,7 +23,6 @@
 
 // 비행기 고유 데이터
 typedef struct{
-    int no;
     char airPlaneName[100];  // HAN122,
     char gate;    // A,B...
     char department[100]; // 목적지
@@ -34,24 +33,40 @@ typedef struct{
 
 void readAirplane(Airplane *ap);
 void c_Airplane(Airplane *ap[], int index);
+void listAirplane(Airplane *ap[], int index);
+void d_Airplane(Airplane *ap[], int index, int M_index);
 
 int main(){
     Airplane *airplane[100];
     int air_index = 0;
     c_Airplane(airplane, air_index);
-    readAirplane(airplane[air_index]);
+    air_index++;
+    c_Airplane(airplane, air_index);
+    air_index++;
+    c_Airplane(airplane, air_index);
+    air_index++;
+
+    listAirplane(airplane, air_index);
 
     return 0;
 }
 
+void listAirplane(Airplane *ap[], int index){
+    printf("출발시간\t목적지\t편명\t게이트\t남은좌석\n");
+    for(int i = 0; i < index; i++){
+        printf("%d ", i+1);
+        readAirplane(ap[i]);
+    }
+    
+}
+
 void readAirplane(Airplane *ap){
-    printf("%d\t%s\t%s\t%s\t%c\t%d\n",ap->no , ap->departureTime, ap->department, ap->airPlaneName, ap->gate, ap->seatNum);
+    printf("%s\t\t%s\t%s\t%c\t%d\n", ap->departureTime, ap->department, ap->airPlaneName, ap->gate, ap->seatNum);
 }
 
 void c_Airplane(Airplane *ap[], int index){
     int sit;
     ap[index] = (Airplane *) malloc(sizeof(Airplane));
-    ap[index]->no = index+1;
     printf("비행기 명 : ");
     fgets(ap[index]->airPlaneName, 100, stdin);
     ap[index]->airPlaneName[strlen(ap[index]->airPlaneName) - 1] = '\0';
@@ -73,6 +88,26 @@ void c_Airplane(Airplane *ap[], int index){
     printf("탑승 게이트 (ex. A,B,C ...) : ");
     scanf(" %c", &ap[index]->gate);
     getchar();
-    
+
+    //출발시간을 기준으로 오름차순 정렬
+    while(index && strcmp(ap[index] -> departureTime, ap[index-1] -> departureTime) < 0){      //index가 0이거나 이전 배열의 출발시간이 더 작으면 반복문 탈출
+        Airplane *temp;
+        temp = ap[index];
+        ap[index] = ap[index-1];
+        ap[index-1] = temp;
+        index--;
+    }
+
     printf("저장되었습니다.\n");
+}
+
+void d_Airplane(Airplane *ap[], int index, int M_index){
+
+    // 데이터를 한칸씩 앞당김
+    for(int i = 0; i < M_index; i++){
+        ap[i] = ap[i+1];
+    }
+    //초기화 후 메모리 해제
+    memset(ap[M_index],0,sizeof(Airplane));
+    free(ap[M_index]);
 }
