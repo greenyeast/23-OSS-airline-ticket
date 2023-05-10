@@ -12,11 +12,19 @@ int checkID(char ID[], char pw[], int *admin);
 void new_member();
 
 int main(){
-    User *u = (User *)malloc(sizeof(User));
+    char ID[20];
+    char pw[20];
     int admin = 0;
-    strcpy(u->userId, "qkrwks01");
-    strcpy(u->pw, "12367");
-    checkID(u->userId, u->pw, &admin);
+    new_member();
+    // strcpy(u->userId, "qkrwks01");
+    // strcpy(u->pw, "12367");
+    printf("ID : ");
+    scanf("%s", ID);
+    getchar();
+    printf("PW : ");
+    scanf("%s", pw);
+    getchar();
+    checkID(ID, pw, &admin);
     return 0;
 }
 
