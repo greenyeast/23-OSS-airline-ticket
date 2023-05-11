@@ -35,10 +35,16 @@ void readAirplane(Airplane *ap);
 void c_Airplane(Airplane *ap[], int index);
 void listAirplane(Airplane *ap[], int index);
 void d_Airplane(Airplane *ap[], int index, int M_index);
+void saveFile(Airplane *ap[], int index);
+int loadFile(Airplane *ap[]);
 
 int main(){
     Airplane *airplane[100];
     int air_index = 0;
+    air_index = loadFile(airplane);
+
+    listAirplane(airplane, air_index);
+
     c_Airplane(airplane, air_index);
     air_index++;
     c_Airplane(airplane, air_index);
@@ -47,14 +53,16 @@ int main(){
     air_index++;
 
     listAirplane(airplane, air_index);
+    saveFile(airplane, air_index);
+
 
     return 0;
 }
 
 void listAirplane(Airplane *ap[], int index){
-    printf("출발시간\t목적지\t편명\t게이트\t남은좌석\n");
+    printf("번호\t출발시간\t목적지\t편명\t게이트\t남은좌석\n");
     for(int i = 0; i < index; i++){
-        printf("%d ", i+1);
+        printf("%d\t", i+1);
         readAirplane(ap[i]);
     }
     
@@ -62,6 +70,12 @@ void listAirplane(Airplane *ap[], int index){
 
 void readAirplane(Airplane *ap){
     printf("%s\t\t%s\t%s\t%c\t%d\n", ap->departureTime, ap->department, ap->airPlaneName, ap->gate, ap->seatNum);
+    // for(int i = 0; i < (ap->seatNum)/5; i++){
+    //     for(int j = 0; j < 5; j++){
+    //         printf("%c", ap->seatName[i][j]);
+    //     }
+    //     printf("\n");
+    // }
 }
 
 void c_Airplane(Airplane *ap[], int index){
@@ -110,4 +124,76 @@ void d_Airplane(Airplane *ap[], int index, int M_index){
     //초기화 후 메모리 해제
     memset(ap[M_index],0,sizeof(Airplane));
     free(ap[M_index]);
+}
+
+void saveFile(Airplane *ap[], int index){
+    FILE * file = fopen("airplane.txt", "w");
+    if(file == NULL){
+        printf("에러발생\n");
+        return;
+    }
+    for(int i = 0; i < index; i++){
+        //항공편 정보 저장
+        fprintf(file, "%s,%s,%s,%d,%c,",
+            ap[i]->airPlaneName, 
+            ap[i]->department, 
+            ap[i]->departureTime,
+            ap[i]->seatNum,
+            ap[i]->gate
+        );
+
+        //예약된 좌석 저장
+        for(int j = 0; j < (ap[i]->seatNum)/5; j++){
+            for(int k = 0; k < 5; k++){
+                fprintf(file, "%c", ap[i]->seatName[j][k]);
+            }
+        }
+        fprintf(file,"\n");
+    }
+    fclose(file);
+    printf("저장되었습니다.\n");
+}
+
+int loadFile(Airplane *ap[]){
+    FILE * file = fopen("airplane.txt", "r");
+    char line[350];
+    char seat[150];
+    int index = 0;
+    if(file == NULL){
+        printf("\n=> 파일 없음\n");
+        return 0;
+    }
+    while(fgets(line,sizeof(line),file)){
+        int i = index;
+        ap[i] = (Airplane *)malloc(sizeof(Airplane));
+        sscanf(line," %[^,],%[^,],%[^,],%d,%c,%s\n",
+                ap[i]->airPlaneName,
+                ap[i]->department,
+                ap[i]->departureTime,
+                &ap[i]->seatNum,
+                &ap[i]->gate,
+                seat
+        );
+
+        for(int j = 0; j < (ap[i]->seatNum)/5; j++){
+            for(int k = 0; k < 5; k++){
+                sscanf(seat, "%c", &ap[i]->seatName[j][k]);
+            }
+        }
+
+        //출발시간을 기준으로 오름차순 정렬
+        while(i && strcmp(ap[i] -> departureTime, ap[i-1] -> departureTime) < 0){      //index가 0이거나 이전 배열의 출발시간이 더 작으면 반복문 탈출
+            Airplane *temp;
+            temp = ap[i];
+            ap[i] = ap[i-1];
+            ap[i-1] = temp;
+            i--;
+        }
+        index++;
+    }
+
+
+    fclose(file);
+    printf("=> 로딩 성공!\n");
+    return index;
 }
