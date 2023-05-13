@@ -5,42 +5,50 @@
 typedef struct{
     char userId[20];
     char pw[20];
-    int admin;
+    int session; //관리자인 경우 1, 이용자일 경우 0.
 } User;
 
-int checkID(char ID[], char pw[], int *admin);
-void new_member();
+int checkID(char ID[], char pw[], int *session);    // 아이디,비밀번호 확인.
+void new_member();                                  // 회원가입.
 
 int main(){
     char ID[20];
     char pw[20];
-    int admin = 0;
-    new_member();
+    int session = 0;  
+    // new_member();
     // strcpy(u->userId, "qkrwks01");
     // strcpy(u->pw, "12367");
-    printf("ID : ");
-    scanf("%s", ID);
-    getchar();
-    printf("PW : ");
-    scanf("%s", pw);
-    getchar();
-    checkID(ID, pw, &admin);
+    while(1){
+        printf("ID : ");
+        scanf("%s", ID);
+        getchar();
+        printf("PW : ");
+        scanf("%s", pw);
+        getchar();
+        if(checkID(ID,pw,&session)) break;
+    }
+
+    if(session){
+        printf("관리자 입니다.");
+    }else{
+        printf("이용자 입니다.");
+    }
     return 0;
 }
 
 int checkID(char ID[], char pw[], int *admin){
-    FILE * file = fopen("userdata.txt", "r");
+    FILE * file = fopen("userList.txt", "r");
     char line[100];
     while(fgets(line,sizeof(line),file)){
         User *u= (User *)malloc(sizeof(User));
-        sscanf(line, "%s %s %d\n", u->userId, u->pw, &u->admin);
+        sscanf(line, "%s %s %d\n", u->userId, u->pw, &u->session);
         if(!strcmp(ID,u->userId)){
             if(strcmp(pw,u->pw)){
                 printf("비밀번호가 틀렸습니다.\n");
                 return 0;
             }else{
                 printf("로그인 성공\n");
-                *admin = u->admin;          //관리자인 경우 1, 유저의 경우 0
+                *admin = u->session;          //관리자인 경우 1, 유저의 경우 0
                 return 1;
             }
         }
@@ -53,7 +61,7 @@ int checkID(char ID[], char pw[], int *admin){
 
 void new_member(){
     User *u= (User *)malloc(sizeof(User));
-    FILE * file = fopen("userdata.txt", "a+");
+    FILE * file = fopen("userList.txt", "a+");
     char line[100];
     while(1){
         int plag = 0;
@@ -67,7 +75,7 @@ void new_member(){
 
         while(fgets(line,sizeof(line),file)){
             User *check= (User *)malloc(sizeof(User));
-            sscanf(line, "%s %s %d\n", check->userId, check->pw, &check->admin);
+            sscanf(line, "%s %s %d\n", check->userId, check->pw, &check->session);
             if(!strcmp(u->userId, check->userId)){
                 plag = 1;
                 break;
@@ -94,9 +102,9 @@ void new_member(){
         }
     }
 
-    u->admin = 0;
+    u->session = 0;
 
-    fprintf(file,"%s %s %d\n", u->userId, u->pw, u->admin);
+    fprintf(file,"%s %s %d\n", u->userId, u->pw, u->session);
     printf("회원가입이 완료되었습니다.\n");
     fclose(file);
     return;
