@@ -3,24 +3,6 @@
 #include <stdlib.h>
 // #include "admin.h"
 
-// 항공편 생성
-// 항공편 정보 변경
-// 항공편 삭제
-
-// typedef struct{
-//     User *user; // 아니면 user typedef struct 포인터
-//     Airplane *airplane; // airplane typedef struct 포인터 
-//     int passengers;    // 탑승인원 수
-//     char seatNum[5];    // a1, a2, ...
-// } Ticket;
-
-// typedef struct{
-//     char userId[20];
-//     char pw[20];
-//     char name[20];
-//     int age;
-// } User;
-
 // 비행기 고유 데이터
 typedef struct{
     char airPlaneName[100];  // HAN122,
@@ -309,19 +291,21 @@ int loadFile(Airplane *ap[]){
 }
 
 void searchDate(Airplane *ap[], int index, char str[20]){
+    int no = 1;
     printf("번호\t출발일시\t\t출발지\t도착지\t편명\t게이트\t남은좌석/총 좌석\n");
     for(int i = 0; i < index; i++){
         if(strstr(ap[i]->dateTime, str)){   //같은 날인 경우만 출력
-            printf("%d\t", i+1);
+            printf("%d\t", no++);
             readAirplane(ap[i]);
         }
     }
 }
 void searchD_to_A(Airplane *ap[], int index, char d[100], char a[100]){
+    int no = 1;
     printf("번호\t출발일시\t\t출발지\t도착지\t편명\t게이트\t남은좌석/총 좌석\n");
     for(int i = 0; i < index; i++){
         if(strstr(ap[i]->departure, d) && strstr(ap[i]->arrival, a)){   //출발지와 도착지가 같은 경우만 출력
-            printf("%d\t", i+1);
+            printf("%d\t", no++);
             readAirplane(ap[i]);
         }
     }
