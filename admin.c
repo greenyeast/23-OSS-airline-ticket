@@ -3,14 +3,14 @@
 #include <stdlib.h>
 // #include "admin.h"
 
-// Ç×°øÆí »ı¼º
-// Ç×°øÆí Á¤º¸ º¯°æ
-// Ç×°øÆí »èÁ¦
+// í•­ê³µí¸ ìƒì„±
+// í•­ê³µí¸ ì •ë³´ ë³€ê²½
+// í•­ê³µí¸ ì‚­ì œ
 
 // typedef struct{
-//     User *user; // ¾Æ´Ï¸é user typedef struct Æ÷ÀÎÅÍ
-//     Airplane *airplane; // airplane typedef struct Æ÷ÀÎÅÍ 
-//     int passengers;    // Å¾½ÂÀÎ¿ø ¼ö
+//     User *user; // ì•„ë‹ˆë©´ user typedef struct í¬ì¸í„°
+//     Airplane *airplane; // airplane typedef struct í¬ì¸í„° 
+//     int passengers;    // íƒ‘ìŠ¹ì¸ì› ìˆ˜
 //     char seatNum[5];    // a1, a2, ...
 // } Ticket;
 
@@ -21,49 +21,151 @@
 //     int age;
 // } User;
 
-// ºñÇà±â °íÀ¯ µ¥ÀÌÅÍ
+// ë¹„í–‰ê¸° ê³ ìœ  ë°ì´í„°
 typedef struct{
     char airPlaneName[100];  // HAN122,
     char gate;    // A,B...
-    char departure[100]; // ÃÍ¹ßÁö
-    char arrival[100]; // µµÂøÁö
-    char dateTime[20];  // Ãâ¹ß½Ã°£
-    int seatNum;    // ÁÂ¼® ¼ö, ÃÖ´ë ÁÂ¼®¼ö´Â 180ÁÂ¼®, ÀÔ·Â¹ŞÀ»¶§´Â ÁÙ¼ö·Î ÀÔ·Â¹ŞÀ» °Í.
-    int remain_seat; //³²Àº ÁÂ¼® ¼ö.
-    // char seatName[26][5];  // isalpha() »ç¿ë
+    char departure[100]; // ì´ë°œì§€
+    char arrival[100]; // ë„ì°©ì§€
+    char dateTime[20];  // ì¶œë°œì‹œê°„
+    int seatNum;    // ì¢Œì„ ìˆ˜, ìµœëŒ€ ì¢Œì„ìˆ˜ëŠ” 180ì¢Œì„, ì…ë ¥ë°›ì„ë•ŒëŠ” ì¤„ìˆ˜ë¡œ ì…ë ¥ë°›ì„ ê²ƒ.
+    int remain_seat; //ë‚¨ì€ ì¢Œì„ ìˆ˜.
 } Airplane;
 
+int showMenu();
 void readAirplane(Airplane *ap);
 void c_Airplane(Airplane *ap[], int index);
 void listAirplane(Airplane *ap[], int index);
 void d_Airplane(Airplane *ap[], int index, int M_index);
+void u_Airplane(Airplane *ap[], int index);
 void saveFile(Airplane *ap[], int index);
 int loadFile(Airplane *ap[]);
+void searchDate(Airplane *ap[], int index, char str[20]);
+void searchD_to_A(Airplane *ap[], int index, char d[100], char a[100]);
+
 
 int main(){
     Airplane *airplane[100];
-    int air_index = 0;
-    // air_index = loadFile(airplane);
+    int air_index = loadFile(airplane);
+    if(air_index){
+        printf("=> ë¡œë”©ì„±ê³µ\n");
+    }else{
+        printf("=> ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.\n");
+    }
+    while(1){
+        int num;
+        int check;
+        char str1[100], str2[100];
+        
+        switch (showMenu())
+        {
+        case 0:
+            printf("HanAir ê´€ë¦¬ì ì„œë¹„ìŠ¤ë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤.");
+            return 0;
 
-    // listAirplane(airplane, air_index);
+        case 1:
+            if(!air_index){
+                printf("ìƒì„±ëœ í•­ê³µí¸ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n");
+                break;
+            }
+            listAirplane(airplane, air_index);
+            break;
 
-    c_Airplane(airplane, air_index);
-    air_index++;
+        case 2:
+            c_Airplane(airplane, air_index);
+            air_index++;
+            break;
 
-    listAirplane(airplane, air_index);
+        case 3:
+            listAirplane(airplane, air_index);
+            printf("\n");
+            printf("ë³€ê²½í•  ë²ˆí˜¸ëŠ”? ");
+            scanf(" %d", &num);
+            getchar();
+            num--;
+            u_Airplane(airplane,num);
+            break;
 
-    c_Airplane(airplane, air_index);
-    air_index++;
+        case 4:
+            listAirplane(airplane, air_index);
+            printf("\n");
+            printf("ì‚­ì œí•  ë²ˆí˜¸ëŠ” (ì·¨ì†Œ :0)? ");
+            scanf(" %d", &num);
+            getchar();
+            if(!num){                           // numì´ 0ì´ë©´ break
+                printf("ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.\n");
+                break; 
+            }                    
+            num--;
 
-    listAirplane(airplane, air_index);
-    // saveFile(airplane, air_index);
+            printf("ì •ë§ë¡œ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ (ì‚­ì œ :1)? ");
+            scanf(" %d", &check);
+            getchar();
+            if(check != 1){                     //checkê°€ 1ì´ ì•„ë‹ˆë©´ break
+                printf("ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.\n");
+                break; 
+            }              
+            d_Airplane(airplane, num, air_index--);
+            break;
 
+        case 5:
+            saveFile(airplane, air_index);
+            break;
 
+        case 6:
+            printf("ì¼ìë³„ ê²€ìƒ‰ 1ë²ˆ, ì¶œë°œë„ì°©ì§€ ê²€ìƒ‰ 2ë²ˆ ? ");
+            scanf(" %d", &num);
+            getchar();
+
+            if(num == 1){
+                printf("ê²€ìƒ‰í•  ë‚ ì§œëŠ”? ");
+                fgets(str1, 100, stdin);
+                str1[strlen(str1) - 1] = '\0';
+
+                searchDate(airplane, air_index, str1);
+            }else if(num == 2){
+                printf("ê²€ìƒ‰í•  ì¶œë°œì§€ëŠ”? ");
+                fgets(str1, 100, stdin);
+                str1[strlen(str1) - 1] = '\0';
+
+                printf("ê²€ìƒ‰í•  ë„ì°©ì§€ëŠ”? ");
+                fgets(str2, 100, stdin);
+                str2[strlen(str2) - 1] = '\0';
+
+                searchD_to_A(airplane, air_index, str1, str2);   
+            }else{
+                printf("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.\n");
+            }
+
+            break;
+        
+        default:
+            break;
+        }
+    }
     return 0;
 }
 
+int showMenu(){
+    int menu;
+    printf("\nâ€”------------ HanAir Ticket System â€”------------\n");
+    printf("1. í•­ê³µí¸ ì¡°íšŒ\n");
+    printf("2. í•­ê³µí¸ ìƒì„±\n");
+    printf("3. í•­ê³µê¶Œ ì •ë³´ ë³€ê²½\n");
+    printf("4. í•­ê³µí¸ ì‚­ì œ\n");
+    printf("5. í•­ê³µí¸ íŒŒì¼ ì €ì¥\n");
+    printf("6. í•­ê³µí¸ ì¼ìë³„ ëª©ë¡ìœ¼ë¡œ ì¡°íšŒ\n");
+    printf("0. ì¢…ë£Œ\n");
+    printf("â€”----------------------------------------------------------\n");
+    printf("\n");
+    printf("=> ì›í•˜ëŠ” ë©”ë‰´ëŠ”? ");
+    scanf("%d", &menu);
+    getchar();
+
+    return menu;
+}
 void listAirplane(Airplane *ap[], int index){
-    printf("¹øÈ£\tÃâ¹ßÀÏ½Ã\tÃâ¹ßÁö\tµµÂøÁö\tÆí¸í\t°ÔÀÌÆ®\t³²ÀºÁÂ¼®/ÃÑ ÁÂ¼®\n");
+    printf("ë²ˆí˜¸\tì¶œë°œì¼ì‹œ\t\tì¶œë°œì§€\të„ì°©ì§€\tí¸ëª…\tê²Œì´íŠ¸\të‚¨ì€ì¢Œì„/ì´ ì¢Œì„\n");
     for(int i = 0; i < index; i++){
         printf("%d\t", i+1);
         readAirplane(ap[i]);
@@ -72,47 +174,41 @@ void listAirplane(Airplane *ap[], int index){
 }
 
 void readAirplane(Airplane *ap){
-    printf("%s\t\t%s\t%s\t%c\t%d/%d\n", ap->dateTime, ap->arrival, ap->airPlaneName, ap->gate, ap->remain_seat, ap->seatNum);
-    // for(int i = 0; i < (ap->seatNum)/5; i++){
-    //     for(int j = 0; j < 5; j++){
-    //         printf("%c", ap->seatName[i][j]);
-    //     }
-    //     printf("\n");
-    // }
+    printf("%s\t%s\t%s\t%s\t%c\t%d/%d\n", ap->dateTime, ap->departure, ap->arrival, ap->airPlaneName, ap->gate, ap->remain_seat, ap->seatNum);
 }
 
 void c_Airplane(Airplane *ap[], int index){
-    int sit;
+    int seat;
     ap[index] = (Airplane *) malloc(sizeof(Airplane));
 
-    printf("Ãâ¹ßÀÏ½Ã (ex.2023-05-13 17:30) : ");
+    printf("ì¶œë°œì¼ì‹œ (ex.2023-05-13 17:30) : ");
     fgets(ap[index]->dateTime, 100, stdin);
     ap[index]->dateTime[strlen(ap[index]->dateTime) - 1] = '\0';
 
-    printf("Ãâ¹ßÁö : ");
+    printf("ì¶œë°œì§€ : ");
     fgets(ap[index]->departure, 100, stdin);
     ap[index]->departure[strlen(ap[index]->departure) - 1] = '\0';
 
-    printf("µµÂøÁö : ");
+    printf("ë„ì°©ì§€ : ");
     fgets(ap[index]->arrival, 100, stdin);
     ap[index]->arrival[strlen(ap[index]->arrival) - 1] = '\0';
 
-    printf("Ç×°ø±â ¸í : ");
+    printf("í•­ê³µê¸° ëª… : ");
     fgets(ap[index]->airPlaneName, 100, stdin);
     ap[index]->airPlaneName[strlen(ap[index]->airPlaneName) - 1] = '\0';
 
-    printf("Å¾½Â °ÔÀÌÆ® (ex. A,B,C ...) : ");
+    printf("íƒ‘ìŠ¹ ê²Œì´íŠ¸ (ex. A,B,C ...) : ");
     scanf(" %c", &ap[index]->gate);
     getchar();
 
-    printf("ÃÖ´ë ¼ö¿ë ÁÂ¼®¼ö : ");
-    scanf(" %d", &sit);
+    printf("ìµœëŒ€ ìˆ˜ìš© ì¢Œì„ìˆ˜ : ");
+    scanf(" %d", &seat);
     getchar();
-    ap[index]->seatNum = ap[index]->remain_seat = sit;
+    ap[index]->seatNum = ap[index]->remain_seat = seat;
 
 
-    //Ãâ¹ß½Ã°£À» ±âÁØÀ¸·Î ¿À¸§Â÷¼ø Á¤·Ä
-    while(index && strcmp(ap[index] -> dateTime, ap[index-1] -> dateTime) < 0){      //index°¡ 0ÀÌ°Å³ª ÀÌÀü ¹è¿­ÀÇ Ãâ¹ß½Ã°£ÀÌ ´õ ÀÛÀ¸¸é ¹İº¹¹® Å»Ãâ
+    //ì¶œë°œì‹œê°„ì„ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
+    while(index && strcmp(ap[index] -> dateTime, ap[index-1] -> dateTime) < 0){      //indexê°€ 0ì´ê±°ë‚˜ ì´ì „ ë°°ì—´ì˜ ì¶œë°œì‹œê°„ì´ ë” ì‘ìœ¼ë©´ ë°˜ë³µë¬¸ íƒˆì¶œ
         Airplane *temp;
         temp = ap[index];
         ap[index] = ap[index-1];
@@ -120,64 +216,84 @@ void c_Airplane(Airplane *ap[], int index){
         index--;
     }
 
-    printf("Ç×°øÆíÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù.\n");
+    printf("=> í•­ê³µí¸ì´ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.\n");
+}
+
+void u_Airplane(Airplane *ap[], int index){
+
+    printf("ë³€ê²½í•  í•­ê³µê¸° ëª…ì€? ");
+    fgets(ap[index]->airPlaneName, 100, stdin);
+    ap[index]->airPlaneName[strlen(ap[index]->airPlaneName) - 1] = '\0';
+
+    printf("ë³€ê²½í•  ê²Œì´íŠ¸ëŠ”? : ");
+    scanf(" %c", &ap[index]->gate);
+    getchar();
+
+    printf("=> ë³€ê²½ ë‚´ì—­ì´ ì—…ë°ì´íŠ¸ ë˜ì—ˆìŠµë‹ˆë‹¤.\n");
 }
 
 void d_Airplane(Airplane *ap[], int index, int M_index){
 
-    // µ¥ÀÌÅÍ¸¦ ÇÑÄ­¾¿ ¾Õ´ç±è
-    for(int i = 0; i < M_index; i++){
+    // ë°ì´í„°ë¥¼ í•œì¹¸ì”© ì•ë‹¹ê¹€
+    for(int i = index; i < M_index; i++){
+        Airplane *temp;
+        temp = ap[i];
         ap[i] = ap[i+1];
+        ap[i+1] = temp;
     }
-    //ÃÊ±âÈ­ ÈÄ ¸Ş¸ğ¸® ÇØÁ¦
+
+    //ì´ˆê¸°í™” í›„ ë©”ëª¨ë¦¬ í•´ì œ
     memset(ap[M_index],0,sizeof(Airplane));
     free(ap[M_index]);
+    printf("=> ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.\n");
 }
 
 void saveFile(Airplane *ap[], int index){
     FILE * file = fopen("airplane.txt", "w");
     if(file == NULL){
-        printf("¿¡·¯¹ß»ı\n");
+        printf("ì—ëŸ¬ë°œìƒ\n");
         return;
     }
     for(int i = 0; i < index; i++){
-        //Ç×°øÆí Á¤º¸ ÀúÀå - Date, Time, Ãâ¹ßÁö, µµÂøÁö, Ç×°øÆí, °ÔÀÌÆ®, ÀÜ¿©ÁÂ¼®/ÃÑÁÂ¼® 
-        fprintf(file, "%s,%s,%s,%d,%c,",
-            ap[i]->airPlaneName, 
-            ap[i]->arrival, 
+        //í•­ê³µí¸ ì •ë³´ ì €ì¥ - ì¶œë°œì¼ì‹œ, ì¶œë°œì§€, ë„ì°©ì§€, í•­ê³µí¸, ê²Œì´íŠ¸, ì”ì—¬ì¢Œì„/ì´ì¢Œì„ 
+        fprintf(file, "%s,%s,%s,%s,%c,%d,%d",
             ap[i]->dateTime,
-            ap[i]->seatNum,
-            ap[i]->gate
+            ap[i]->departure,
+            ap[i]->arrival,
+            ap[i]->airPlaneName,
+            ap[i]->gate,
+            ap[i]->remain_seat,
+            ap[i]->seatNum
         );
         fprintf(file,"\n");
     }
     fclose(file);
-    printf("ÀúÀåµÇ¾ú½À´Ï´Ù.\n");
+    printf("ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.\n");
 }
 
 int loadFile(Airplane *ap[]){
     FILE * file = fopen("airplane.txt", "r");
     char line[350];
-    char seat[150];
     int index = 0;
     if(file == NULL){
-        printf("\n=> ÆÄÀÏ ¾øÀ½\n");
+        printf("\n=> íŒŒì¼ ì—†ìŒ\n");
         return 0;
     }
     while(fgets(line,sizeof(line),file)){
         int i = index;
         ap[i] = (Airplane *)malloc(sizeof(Airplane));
-        sscanf(line," %[^,],%[^,],%[^,],%d,%c,%s\n",
-                ap[i]->airPlaneName,
-                ap[i]->arrival,
-                ap[i]->dateTime,
-                &ap[i]->seatNum,
-                &ap[i]->gate,
-                seat
+        sscanf(line," %[^,],%[^,],%[^,],%[^,],%c,%d,%d\n",
+            ap[i]->dateTime,
+            ap[i]->departure,
+            ap[i]->arrival,
+            ap[i]->airPlaneName,
+            &ap[i]->gate,
+            &ap[i]->remain_seat,
+            &ap[i]->seatNum
         );
 
-        //Ãâ¹ß½Ã°£À» ±âÁØÀ¸·Î ¿À¸§Â÷¼ø Á¤·Ä
-        while(i && strcmp(ap[i] -> dateTime, ap[i-1] -> dateTime) < 0){      //index°¡ 0ÀÌ°Å³ª ÀÌÀü ¹è¿­ÀÇ Ãâ¹ß½Ã°£ÀÌ ´õ ÀÛÀ¸¸é ¹İº¹¹® Å»Ãâ
+        //ì¶œë°œì‹œê°„ì„ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
+        while(i && strcmp(ap[i] -> dateTime, ap[i-1] -> dateTime) < 0){      //indexê°€ 0ì´ê±°ë‚˜ ì´ì „ ë°°ì—´ì˜ ì¶œë°œì‹œê°„ì´ ë” ì‘ìœ¼ë©´ ë°˜ë³µë¬¸ íƒˆì¶œ
             Airplane *temp;
             temp = ap[i];
             ap[i] = ap[i-1];
@@ -189,6 +305,24 @@ int loadFile(Airplane *ap[]){
 
 
     fclose(file);
-    printf("=> ·Îµù ¼º°ø!\n");
     return index;
+}
+
+void searchDate(Airplane *ap[], int index, char str[20]){
+    printf("ë²ˆí˜¸\tì¶œë°œì¼ì‹œ\t\tì¶œë°œì§€\të„ì°©ì§€\tí¸ëª…\tê²Œì´íŠ¸\të‚¨ì€ì¢Œì„/ì´ ì¢Œì„\n");
+    for(int i = 0; i < index; i++){
+        if(strstr(ap[i]->dateTime, str)){   //ê°™ì€ ë‚ ì¸ ê²½ìš°ë§Œ ì¶œë ¥
+            printf("%d\t", i+1);
+            readAirplane(ap[i]);
+        }
+    }
+}
+void searchD_to_A(Airplane *ap[], int index, char d[100], char a[100]){
+    printf("ë²ˆí˜¸\tì¶œë°œì¼ì‹œ\t\tì¶œë°œì§€\të„ì°©ì§€\tí¸ëª…\tê²Œì´íŠ¸\të‚¨ì€ì¢Œì„/ì´ ì¢Œì„\n");
+    for(int i = 0; i < index; i++){
+        if(strstr(ap[i]->departure, d) && strstr(ap[i]->arrival, a)){   //ì¶œë°œì§€ì™€ ë„ì°©ì§€ê°€ ê°™ì€ ê²½ìš°ë§Œ ì¶œë ¥
+            printf("%d\t", i+1);
+            readAirplane(ap[i]);
+        }
+    }
 }
