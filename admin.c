@@ -14,7 +14,7 @@ typedef struct{
     int remain_seat; //남은 좌석 수.
 } Airplane;
 
-int showMenu();
+int showAdminMenu();
 void readAirplane(Airplane *ap);
 void c_Airplane(Airplane *ap[], int index);
 void listAirplane(Airplane *ap[], int index);
@@ -39,7 +39,7 @@ int main(){
         int check;
         char str1[100], str2[100];
         
-        switch (showMenu())
+        switch (showAdminMenu())
         {
         case 0:
             printf("HanAir 관리자 서비스를 종료합니다.");
@@ -128,7 +128,7 @@ int main(){
     return 0;
 }
 
-int showMenu(){
+int showAdminMenu(){
     int menu;
     printf("\n—------------ HanAir Ticket System —------------\n");
     printf("1. 항공편 조회\n");

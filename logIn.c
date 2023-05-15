@@ -10,11 +10,12 @@ typedef struct{
 
 int checkID(char ID[], char pw[], int *session);    // 아이디,비밀번호 확인.
 void new_member();                                  // 회원가입.
+// int showLoginMenu();
 
 int main(){
     char ID[20];
     char pw[20];
-    int session = 0;  
+    int session = 0;
     // new_member();
     // strcpy(u->userId, "qkrwks01");
     // strcpy(u->pw, "12367");
@@ -35,6 +36,19 @@ int main(){
     }
     return 0;
 }
+// int showLoginMenu(){
+//     int menu;
+//     printf("\n***************HanAir Ticket System ***************\n");
+//     printf("1. 사용자\n");
+//     printf("2. 관리자\n");
+//     printf("********************************************************\n");
+//     printf("\n");
+//     printf("=> 원하는 메뉴는? ");
+
+//     scanf(" %d", &menu);
+//     getchar();
+//     return menu;
+// }
 
 int checkID(char ID[], char pw[], int *admin){
     FILE * file = fopen("userList.txt", "r");
