@@ -1,69 +1,56 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "logIn.h"
 
-typedef struct{
-    char name[20];
-    int age;
-    char userId[50];
-    char pw[50];
-} User;
+// int main(){
+//     char ID[50];
+//     char pw[50];
+//     int session = 0;
 
-int checkAdminID(char ID[], char pw[]);     // 관리자 아이디,비밀번호 확인.
-int checkUserID(char ID[], char pw[]);      // 유저
-void new_member();                                  // 회원가입.
-int showStartMenu();
-int showLoginMenu();
+//     while(1){
+//         session = showStartMenu();
+//         if(session == 1){
+//             printf("사용자 모드로 시작합니다.\n");
+//             break;
+//         }else if(session == 2){
+//             printf("관리자 모드로 시작합니다.\n");
+//             break;
+//         }else{
+//             printf("잘못 입력하셨습니다.\n");
+//         }
+//     }
 
-int main(){
-    char ID[50];
-    char pw[50];
-    int session = 0;
-
-    while(1){
-        session = showStartMenu();
-        if(session == 1){
-            printf("사용자 모드로 시작합니다.\n");
-            break;
-        }else if(session == 2){
-            printf("관리자 모드로 시작합니다.\n");
-            break;
-        }else{
-            printf("잘못 입력하셨습니다.\n");
-        }
-    }
-
-    while(1){
-        int loginMode = 0;
-        if(session == 1){
-            loginMode = showLoginMenu();
-        }
-        if(loginMode == 1){
-            new_member();
-        }else if(loginMode == 2 || session == 2){
-            //로그인
-            while(1){
-                printf("ID : ");
-                scanf("%s", ID);
-                getchar();
-                printf("PW : ");
-                scanf("%s", pw);
-                getchar();
-                if(session == 2){
-                    if(checkAdminID(ID,pw)) break;
-                }else{
-                    if(checkUserID(ID,pw)) break;
-                }
+//     while(1){
+//         int loginMode = 0;
+//         if(session == 1){
+//             loginMode = showLoginMenu();
+//         }
+//         if(loginMode == 1){
+//             new_member();
+//         }else if(loginMode == 2 || session == 2){
+//             while(1){
+//                 printf("ID : ");
+//                 scanf("%s", ID);
+//                 getchar();
+//                 printf("PW : ");
+//                 scanf("%s", pw);
+//                 getchar();
+//                 if(session == 2){
+//                     if(checkAdminID(ID,pw)) break;
+//                 }else{
+//                     if(checkUserID(ID,pw)) break;
+//                 }
                 
-            }
-            break;
-        }else{
-            printf("잘못 입력하셨습니다.\n");
-        }
-    }
+//             }
+//             break;
+//         }else{
+//             printf("잘못 입력하셨습니다.\n");
+//         }
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
 
 int showLoginMenu(){
     int menu;
@@ -93,8 +80,6 @@ int showStartMenu(){
 }
 
 int checkUserID(char ID[], char pw[]){
-
-    
     FILE * file = fopen("userList.txt", "r");
     char line[100];
     while(fgets(line,sizeof(line),file)){
@@ -121,7 +106,7 @@ int checkAdminID(char ID[], char pw[]){
     char line[100];
     while(fgets(line,sizeof(line),file)){
         User *u= (User *)malloc(sizeof(User));
-        sscanf(line, "%s %d %s %s\n", u->name, &u->age, u->userId, u->pw);
+        sscanf(line, "%s %s\n", u->userId, u->pw);
         if(!strcmp(ID,u->userId)){
             if(strcmp(pw,u->pw)){
                 printf("비밀번호가 틀렸습니다.\n");
