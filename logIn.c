@@ -3,55 +3,6 @@
 #include <stdlib.h>
 #include "logIn.h"
 
-// int main(){
-//     char ID[50];
-//     char pw[50];
-//     int session = 0;
-
-//     while(1){
-//         session = showStartMenu();
-//         if(session == 1){
-//             printf("사용자 모드로 시작합니다.\n");
-//             break;
-//         }else if(session == 2){
-//             printf("관리자 모드로 시작합니다.\n");
-//             break;
-//         }else{
-//             printf("잘못 입력하셨습니다.\n");
-//         }
-//     }
-
-//     while(1){
-//         int loginMode = 0;
-//         if(session == 1){
-//             loginMode = showLoginMenu();
-//         }
-//         if(loginMode == 1){
-//             new_member();
-//         }else if(loginMode == 2 || session == 2){
-//             while(1){
-//                 printf("ID : ");
-//                 scanf("%s", ID);
-//                 getchar();
-//                 printf("PW : ");
-//                 scanf("%s", pw);
-//                 getchar();
-//                 if(session == 2){
-//                     if(checkAdminID(ID,pw)) break;
-//                 }else{
-//                     if(checkUserID(ID,pw)) break;
-//                 }
-                
-//             }
-//             break;
-//         }else{
-//             printf("잘못 입력하셨습니다.\n");
-//         }
-//     }
-
-//     return 0;
-// }
-
 int showLoginMenu(){
     int menu;
     printf("\n***************HanAir Ticket System ***************\n");
