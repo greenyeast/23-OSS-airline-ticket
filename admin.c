@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include<stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,7 +23,9 @@ int showAdminMenu(){
     return menu;
 }
 void listAirplane(Airplane *ap[], int index){
+
     printf("번호\t출발일시\t\t출발지\t도착지\t편명\t게이트\t남은좌석/총 좌석\n");
+
     for(int i = 0; i < index; i++){
         printf("%d\t", i+1);
         readAirplane(ap[i]);
@@ -61,6 +63,7 @@ void c_Airplane(Airplane *ap[], int index){
 
     printf("최대 수용 좌석수 : ");
     scanf(" %d", &seat);
+
     getchar();
     ap[index]->seatNum = ap[index]->remain_seat = seat;
 
@@ -160,7 +163,6 @@ int loadFile(Airplane *ap[]){
         }
         index++;
     }
-
 
     fclose(file);
     return index;
