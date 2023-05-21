@@ -2,8 +2,11 @@
 #include <time.h>
 // #include "ticket.h"
 
+#ifndef admin
+#define admin
 // 비행기 고유 데이터
 typedef struct{
+    int timetableIndex;      // 구분하기 위한 인덱스
     char airPlaneName[100];  // HAN122,
     char gate;    // A,B...
     char departure[100]; // 촐발지
@@ -12,6 +15,7 @@ typedef struct{
     int seatNum;    // 좌석 수, 최대 좌석수는 180좌석, 입력받을때는 줄수로 입력받을 것.
     int remain_seat; //남은 좌석 수.
 } Airplane;
+
 
 int showAdminMenu();
 void readAirplane(Airplane *ap);
@@ -23,3 +27,5 @@ void saveFile(Airplane *ap[], int index);
 int loadFile(Airplane *ap[]);
 void searchDate(Airplane *ap[], int index, char str[20]);
 void searchD_to_A(Airplane *ap[], int index, char d[100], char a[100]);
+
+#endif

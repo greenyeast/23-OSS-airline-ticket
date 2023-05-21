@@ -1,14 +1,18 @@
 #include <stdio.h>
 #include <string.h>
-#include "login.h"
+#include <stdlib.h>
+#include "logIn.h"
 #include "admin.h"
+#include "ticket.h"
 
 int main(){
     char ID[50];                                                // main에서 입력받을 ID
     char pw[50];                                                // main에서 입력받을 PW
     int session = 0;                                            // 사용자 == 1, 관리자 == 2
-    Airplane *airplane[100];                                    // 항공기 정보를 저장할 포인터 배열
+    Airplane *airplane[200];                                    // 항공기 정보를 저장할 포인터 배열
+    Ticket *tk[200];                                        // 티켓 예매 정보를 저장할 포인터 배열       
     int air_index = loadFile(airplane);                         // 저장된 항공기 정보 load & 현재 저장된 총 항공기 수 저장
+   
     /********************로그인 과정**************************/
     while(1){
         session = showStartMenu();
@@ -40,6 +44,7 @@ int main(){
                 getchar();
                 if(session == 2){
                     if(checkAdminID(ID,pw)) break;
+
                 }else{
                     if(checkUserID(ID,pw)) break;
                 }
@@ -49,6 +54,55 @@ int main(){
         }else{
             printf("잘못 입력하셨습니다.\n");
         }
+    }
+/***********************    사용자 메뉴(session==1)    *******************************/
+    if(session == 1){
+        // 로그인 성공후 예매 메뉴
+        int ticketMenu;
+        int ticket_count = loadTicketData(tk, ID);      // 데이터 실제 개수
+        int ticket_index = 0;      // 데이터 번호
+        
+
+        while(1){
+            ticketMenu = selectTicketMenu();
+
+            if(ticketMenu == 0) break;
+
+            if(ticketMenu == 1) {
+                if (ticket_count > 0) listReservedTicket(tk, airplane, ticket_index);
+                else printf("데이터가 없습니다. \n");
+            }
+            else if(ticketMenu == 2){
+                tk[ticket_index] = (Ticket *)malloc(sizeof(tk));
+                listAirplane(airplane, air_index);
+                ticket_count += createTicket(tk[ticket_index++], ID);
+            }
+            else if(ticketMenu == 3){
+                printf("\n현재 예매 가능한 비행편 목록입니다.");
+                listAirplane(airplane, air_index);
+                printf("-------------------------------------------------------\n");
+                int no = selectTicketDataNo(tk, airplane, ticket_index);
+                if (no == 0){
+                    printf("=> 취소됨!!\n");
+                    continue;
+                }
+                updateTicket(tk[no-1]);
+            }
+            else if(ticketMenu == 4){
+
+            }
+            else if(ticketMenu == 5){
+                saveAllUserTicketData(tk, ticket_index);
+                saveUserTicketData(tk, airplane, ticket_index, ID);
+            }
+            else if(ticketMenu == 6){
+
+            }
+            else  {
+                printf("유효한 메뉴번호를 입력해주세요.\n");
+            }
+        }
+        printf("\nHanAir를 이용해주셔서 감사합니다.\n");
     }
     
     /********************************관리자인 경우 (session == 2)********************************/
@@ -67,7 +121,7 @@ int main(){
             switch (showAdminMenu())
             {
             case 0:
-                printf("HanAir 관리자 서비스를 종료합니다.");
+                printf("HanAir 관리자 서비스를 종료합니다.\n");
                 return 0;
 
             case 1:

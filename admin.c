@@ -34,12 +34,13 @@ void listAirplane(Airplane *ap[], int index){
 }
 
 void readAirplane(Airplane *ap){
-    printf("%s\t%s\t%s\t%s\t%c\t%d/%d\n", ap->dateTime, ap->departure, ap->arrival, ap->airPlaneName, ap->gate, ap->remain_seat, ap->seatNum);
+    printf("%s\t%s\t%s\t%s\t%c\t%d/%d\n" ,ap->dateTime, ap->departure, ap->arrival, ap->airPlaneName, ap->gate, ap->remain_seat, ap->seatNum);
 }
 
 void c_Airplane(Airplane *ap[], int index){
     int seat;
     ap[index] = (Airplane *) malloc(sizeof(Airplane));
+    ap[index]->timetableIndex = index+1;      // 비행편 시간 구분용 인덱스 
 
     printf("출발일시 (ex.2023-05-13 17:30) : ");
     fgets(ap[index]->dateTime, 100, stdin);
@@ -117,7 +118,8 @@ void saveFile(Airplane *ap[], int index){
     }
     for(int i = 0; i < index; i++){
         //항공편 정보 저장 - 출발일시, 출발지, 도착지, 항공편, 게이트, 잔여좌석/총좌석 
-        fprintf(file, "%s,%s,%s,%s,%c,%d,%d",
+        fprintf(file, "%d,%s,%s,%s,%s,%c,%d,%d",
+            ap[i]->timetableIndex,
             ap[i]->dateTime,
             ap[i]->departure,
             ap[i]->arrival,
@@ -143,7 +145,8 @@ int loadFile(Airplane *ap[]){
     while(fgets(line,sizeof(line),file)){
         int i = index;
         ap[i] = (Airplane *)malloc(sizeof(Airplane));
-        sscanf(line," %[^,],%[^,],%[^,],%[^,],%c,%d,%d\n",
+        sscanf(line,"%d,%[^,],%[^,],%[^,],%[^,],%c,%d,%d\n",
+            &ap[i]->timetableIndex,
             ap[i]->dateTime,
             ap[i]->departure,
             ap[i]->arrival,
