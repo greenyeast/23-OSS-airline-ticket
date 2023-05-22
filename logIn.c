@@ -35,13 +35,15 @@ int checkUserID(char ID[], char pw[]){
     char line[100];
     while(fgets(line,sizeof(line),file)){
         User *u= (User *)malloc(sizeof(User));
-        sscanf(line, "%s %d %s %s\n", u->name, &u->age, u->userId, u->pw);
+        sscanf(line, "%[^,],%d %s %s\n", u->name, &u->age, u->userId, u->pw);
         if(!strcmp(ID,u->userId)){
             if(strcmp(pw,u->pw)){
                 printf("비밀번호가 틀렸습니다.\n");
                 return 0;
             }else{
                 printf("로그인 성공\n");
+                printf("\n");
+                printf("Welcome, %s\n", u->name);
                 return 1;
             }
         }
@@ -127,7 +129,7 @@ void new_member(){
         }
     }
 
-    fprintf(file,"%s %d %s %s\n", u->name, u->age, u->userId, u->pw);
+    fprintf(file,"%s,%d %s %s\n", u->name, u->age, u->userId, u->pw);
     printf("********************************************************\n");
     printf("=> 사용자 계정이 생성되었습니다. 로그인해주세요.\n");
     fclose(file);
