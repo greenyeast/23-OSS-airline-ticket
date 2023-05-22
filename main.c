@@ -69,7 +69,7 @@ int main(){
             if(ticketMenu == 0) break;
 
             if(ticketMenu == 1) {
-                if (ticket_count > 0) listReservedTicket(tk, airplane, ticket_index);
+                if (ticket_count > 0) listReservedTicket(tk, airplane, ticket_count);
                 else printf("데이터가 없습니다. \n");
             }
             else if(ticketMenu == 2){
