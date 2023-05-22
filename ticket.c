@@ -58,9 +58,8 @@ void readReservedTicket(Ticket t, Airplane a){
 void listReservedTicket(Ticket *t[], Airplane *a[], int index){      // 내가 예매한 항공권 목록 (user)
     printf("\nNo   출발일시\t\t출발지\t도착지\t좌석유형\n");
     for(int i=0; i<index; i++){
-        int airplaneIndex = t[i]->airplaneIndex;
-
         if(t[i] == NULL) continue;
+        int airplaneIndex = t[i]->airplaneIndex;
         printf("%2d ", i+1);
         readReservedTicket(*t[i], *a[airplaneIndex-1]);
     }
@@ -68,19 +67,24 @@ void listReservedTicket(Ticket *t[], Airplane *a[], int index){      // 내가 �
 }
 // Update
 // int updateAirplaneTime(Airplane *ap, char *userid);       //예매 비행기표 시간 변경 (user)
-int updateTicket(Ticket *t){          // 예매 정보 변경 (user/admin)
+int updateTicket(Airplane *a[] ,Ticket *t){          // 예매 정보 변경 (user/admin)
+    int num;
     printf("변경할 비행편 번호는? ");
-    scanf("%d", &t->airplaneIndex);
+    scanf("%d", &num);
     getchar();
+    t->airplaneIndex = num;
+    a[num-1]->remain_seat--;
 
     printf("변경할 좌석 타입은 (F:FirstClass / B:Business / E:Economy)? ");
     scanf(" %c", &t->seatType);
     getchar();
+
+    printf("변경 완료되었습니다.\n");
     
     return 1;
 }
 // Delete
-int deleteTicket(Ticket *t[]){      // 예매 비행기표 삭제 (user)
+int deleteTicket(Airplane *ap[], Ticket *t[]){      // 예매 비행기표 삭제 (user)
     int deleteok;
     int deleteNo;
     printf("삭제할 번호는 (취소 :0)? ");
@@ -92,6 +96,7 @@ int deleteTicket(Ticket *t[]){      // 예매 비행기표 삭제 (user)
     scanf("%d", &deleteok);
     getchar();
     if(deleteok == 1){
+        ap[(t[deleteNo-1]->airplaneIndex)-1]->remain_seat++;
         if(t[deleteNo-1]) free(t[deleteNo-1]);
         t[deleteNo-1] = NULL;
         printf("=> 삭제되었습니다.\n");

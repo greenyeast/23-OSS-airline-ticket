@@ -87,11 +87,12 @@ int main(){
                     printf("=> 취소됨!!\n");
                     continue;
                 }
-                updateTicket(tk[no-1]);
+                airplane[(tk[no-1]->airplaneIndex)-1]->remain_seat++;
+                updateTicket(airplane, tk[no-1]);
             }
             else if(ticketMenu == 4){
                 listReservedTicket(tk, airplane, ticket_index);
-                int no = deleteTicket(tk);
+                int no = deleteTicket(airplane, tk);
                 if(no == 0){
                     printf("=> 취소됨!!\n");
                     continue;
@@ -102,6 +103,7 @@ int main(){
             else if(ticketMenu == 5){
                 saveAllUserTicketData(tk, ticket_index);
                 saveUserTicketData(tk, ticket_index, ID);
+                saveFile(airplane, air_index);
             }
             else if(ticketMenu == 6){
                 char str1[100];
