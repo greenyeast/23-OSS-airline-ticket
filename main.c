@@ -60,7 +60,7 @@ int main(){
         // 로그인 성공후 예매 메뉴
         int ticketMenu;
         int ticket_count = loadTicketData(tk, ID);      // 데이터 실제 개수
-        int ticket_index = 0;      // 데이터 번호
+        int ticket_index = ticket_count;      // 데이터 번호
         
 
         while(1){
@@ -75,7 +75,8 @@ int main(){
             else if(ticketMenu == 2){
                 tk[ticket_index] = (Ticket *)malloc(sizeof(tk));
                 listAirplane(airplane, air_index);
-                ticket_count += createTicket(tk[ticket_index++], ID);
+                ticket_count += createTicket(airplane, tk[ticket_index++], ID);
+
             }
             else if(ticketMenu == 3){
                 printf("\n현재 예매 가능한 비행편 목록입니다.");
@@ -103,7 +104,7 @@ int main(){
                 saveUserTicketData(tk, ticket_index, ID);
             }
             else if(ticketMenu == 6){
-
+                
             }
             else  {
                 printf("유효한 메뉴번호를 입력해주세요.\n");

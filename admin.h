@@ -3,7 +3,7 @@
 
 #ifndef admin
 #define admin
-// 비행기 고유 데이터
+
 typedef struct{
     int timetableIndex;         // 구분하기 위한 인덱스
     char airPlaneName[100];     // HAN122

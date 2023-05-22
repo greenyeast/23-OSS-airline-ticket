@@ -32,7 +32,7 @@ int selectTicketDataNo(Ticket *t[], Airplane *a[],int index){
 
 
 // Create
-int createTicket(Ticket *t, char *id){
+int createTicket(Airplane *a[], Ticket *t, char *id){
 
     strcpy(t->userId, id);          // 비행기표 예매할 아이디 저장
     printf("\n예매할 항공권 번호는? ");
@@ -40,7 +40,8 @@ int createTicket(Ticket *t, char *id){
 
     printf("좌석 타입은 (F:FirstClass / B:Business / E:Economy)? ");
     scanf(" %c", &t->seatType );
-    
+
+    a[t->airplaneIndex]->remain_seat--;
     printf("=> 예매내역이 추가되었습니다. \n");
     return 1;
 }
