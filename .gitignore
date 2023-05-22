@@ -3,4 +3,5 @@ teamProject.code-workspace
 img/
 .gitignore
 *.exe
-.docx
+*.docx
+*.o
