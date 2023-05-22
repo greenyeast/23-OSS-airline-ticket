@@ -102,8 +102,12 @@ $ git clone https://github.com/greenyeast/23-OSS-airline-ticket.git
 # Go into the repository
 $ cd 23-OSS-airline-ticket
 
+# Compile the source code 
+$ gcc -c admin.c logIn.c ticket.c
+$ gcc -o airline main.c logIn.o admin.o ticket.o
+
 # Run the app
-$ gcc -c main.c guest.o admin.o -o ticket
+$ ./airline
 
 # or Use makefile
 ```
