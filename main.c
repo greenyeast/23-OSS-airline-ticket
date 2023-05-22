@@ -79,7 +79,7 @@ int main(){
 
             }
             else if(ticketMenu == 3){
-                printf("\n현재 예매 가능한 비행편 목록입니다.");
+                printf("\n현재 예매 가능한 비행편 목록입니다.\n");
                 listAirplane(airplane, air_index);
                 printf("-------------------------------------------------------\n");
                 int no = selectTicketDataNo(tk, airplane, ticket_index);
