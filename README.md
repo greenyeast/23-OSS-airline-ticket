@@ -1,8 +1,8 @@
 
 <br />
-<div style="text-align : center;">
+<p align="center">
     <img src="./img/logo2_airHan.png" width="500">
-</div>
+</p>
 <br />
 
 <p align="center">
