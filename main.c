@@ -113,7 +113,7 @@ int main(){
     }
     
     /********************************관리자인 경우 (session == 2)********************************/
-    if(session == 2){
+    else if(session == 2){
         if(air_index){
             printf("=> 로딩성공\n");
         }else{
