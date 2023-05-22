@@ -134,7 +134,7 @@ int loadTicketData(Ticket *t[], char *id){
     }
     fclose(fp);
     printf("=> 로딩 성공!\n");
-    return i;
+    return count;
 }
 
 // 검색
