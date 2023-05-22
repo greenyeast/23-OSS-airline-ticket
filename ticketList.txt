@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-qkrwkdrns01 4 F
-=======
- 4 F
-kate123 2 F
->>>>>>> 35c3fdc (Minus reserved seat data)
+qkrtkdgjs 1 B
+qkrtkdgjs 4 F
+qkrtkdgjs 2 B

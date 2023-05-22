@@ -18,6 +18,7 @@ int selectTicketMenu(){
     printf("—---------------------------------------------------\n");
     printf("=> 원하는 메뉴는? ");
     scanf("%d", &menu);
+    getchar();
 
     return menu;
 }
@@ -27,6 +28,7 @@ int selectTicketDataNo(Ticket *t[], Airplane *a[],int index){
     listReservedTicket(t, a, index);
     printf("변경할 번호는 (취소: 0)? ");
     scanf("%d", &no);
+    getchar();
     return no;
 }
 
@@ -37,9 +39,11 @@ int createTicket(Airplane *a[], Ticket *t, char *id){
     strcpy(t->userId, id);          // 비행기표 예매할 아이디 저장
     printf("\n예매할 항공권 번호는? ");
     scanf("%d", &num);
+    getchar();
     t->airplaneIndex = num;
     printf("좌석 타입은 (F:FirstClass / B:Business / E:Economy)? ");
     scanf(" %c", &t->seatType );
+    getchar();
 
     a[num-1]->remain_seat--;
     printf("=> 예매내역이 추가되었습니다. \n");
@@ -67,9 +71,11 @@ void listReservedTicket(Ticket *t[], Airplane *a[], int index){      // 내가 �
 int updateTicket(Ticket *t){          // 예매 정보 변경 (user/admin)
     printf("변경할 비행편 번호는? ");
     scanf("%d", &t->airplaneIndex);
+    getchar();
 
     printf("변경할 좌석 타입은 (F:FirstClass / B:Business / E:Economy)? ");
     scanf(" %c", &t->seatType);
+    getchar();
     
     return 1;
 }
@@ -79,10 +85,12 @@ int deleteTicket(Ticket *t[]){      // 예매 비행기표 삭제 (user)
     int deleteNo;
     printf("삭제할 번호는 (취소 :0)? ");
     scanf("%d", &deleteNo);
+    getchar();
     if(deleteNo == 0) return 0;
 
     printf("정말로 삭제하시겠습니까 (삭제 :1)? ");
     scanf("%d", &deleteok);
+    getchar();
     if(deleteok == 1){
         if(t[deleteNo-1]) free(t[deleteNo-1]);
         t[deleteNo-1] = NULL;
@@ -157,4 +165,16 @@ int loadTicketData(Ticket *t[], char *id){
 
 // 검색
 // 목적지에 따른 비행기 목록 검색
+void searchArrival(Airplane *ap[], Ticket *t[], int index, char a[100]){
+    printf("\nNo   출발일시\t\t출발지\t도착지\t좌석유형\n");
+    for(int i = 0; i < index; i++){
+        if(t[i] == NULL) continue;
+        int airplaneIndex = t[i]->airplaneIndex;
+
+        if(strstr(ap[airplaneIndex-1]->arrival, a)){
+            printf("%2d ", i+1);
+            readReservedTicket(*t[i], *ap[airplaneIndex-1]);
+        }
+    }
+}
 //

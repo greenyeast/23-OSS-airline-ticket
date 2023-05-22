@@ -20,4 +20,5 @@ int deleteTicket(Ticket *t[]);                                      // 예매 �
 void listReservedTicket(Ticket *t[], Airplane *a[], int index);     // 사용자가 예매한 항공권 목록 
 void saveAllUserTicketData(Ticket *t[], int index);                 // 모든 사용자의 예매 내역 데이터 저장
 void saveUserTicketData(Ticket *t[], int index, char *id);          // 현재 사용자의 예매 내역 데이터 저장
+void searchArrival(Airplane *ap[], Ticket *t[], int index, char a[100]);
 #endif

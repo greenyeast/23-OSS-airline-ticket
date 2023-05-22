@@ -69,7 +69,7 @@ int main(){
             if(ticketMenu == 0) break;
 
             if(ticketMenu == 1) {
-                if (ticket_count > 0) listReservedTicket(tk, airplane, ticket_count);
+                if (ticket_count > 0) listReservedTicket(tk, airplane, ticket_index);
                 else printf("데이터가 없습니다. \n");
             }
             else if(ticketMenu == 2){
@@ -104,7 +104,12 @@ int main(){
                 saveUserTicketData(tk, ticket_index, ID);
             }
             else if(ticketMenu == 6){
-                
+                char str1[100];
+                printf("검색할 도착지는? ");
+                fgets(str1, 100, stdin);
+                str1[strlen(str1) - 1] = '\0';
+
+                searchArrival(airplane, tk, ticket_index, str1);
             }
             else  {
                 printf("유효한 메뉴번호를 입력해주세요.\n");
