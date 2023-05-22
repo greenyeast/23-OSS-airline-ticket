@@ -10,7 +10,7 @@ int main(){
     char pw[50];                                                // main에서 입력받을 PW
     int session = 0;                                            // 사용자 == 1, 관리자 == 2
     Airplane *airplane[200];                                    // 항공기 정보를 저장할 포인터 배열
-    Ticket *tk[200];                                        // 티켓 예매 정보를 저장할 포인터 배열       
+    Ticket *tk[200];                                            // 티켓 예매 정보를 저장할 포인터 배열       
     int air_index = loadFile(airplane);                         // 저장된 항공기 정보 load & 현재 저장된 총 항공기 수 저장
    
     /********************로그인 과정**************************/
@@ -69,7 +69,7 @@ int main(){
             if(ticketMenu == 0) break;
 
             if(ticketMenu == 1) {
-                if (ticket_count > 0) listReservedTicket(tk, airplane, ticket_index);
+                if (ticket_count > 0) listReservedTicket(tk, airplane, ticket_count);
                 else printf("데이터가 없습니다. \n");
             }
             else if(ticketMenu == 2){
@@ -89,11 +89,18 @@ int main(){
                 updateTicket(tk[no-1]);
             }
             else if(ticketMenu == 4){
-
+                listReservedTicket(tk, airplane, ticket_index);
+                int no = deleteTicket(tk);
+                if(no == 0){
+                    printf("=> 취소됨!!\n");
+                    continue;
+                }else{
+                    ticket_count--;
+                }
             }
             else if(ticketMenu == 5){
                 saveAllUserTicketData(tk, ticket_index);
-                saveUserTicketData(tk, airplane, ticket_index, ID);
+                saveUserTicketData(tk, ticket_index, ID);
             }
             else if(ticketMenu == 6){
 

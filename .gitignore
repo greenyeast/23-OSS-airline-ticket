@@ -3,5 +3,10 @@ teamProject.code-workspace
 img/
 .gitignore
 *.exe
+<<<<<<< HEAD
 *.docx
 *.o
+=======
+.docx
+.o
+>>>>>>> 724ebfd552060c8f8228fc603c674e36181137ea

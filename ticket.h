@@ -13,7 +13,7 @@ int selectTicketDataNo(Ticket *t[], Airplane *a[],int index);
 int loadTicketData(Ticket *t[], char *id);
 
 // Create
-//int createTicket(Ticket *t, char *userid);
+// int createTicket(Ticket *t, char *userid);
 int createTicket(Ticket *t, char *id);
 
 // Read
@@ -26,14 +26,14 @@ void readReservedTicket(Ticket t, Airplane a);
 int updateTicket(Ticket *t);// 예매 정보 변경 (user/admin)
 
 // Delete
-int deleteTicket(Ticket *t);// 예매 비행기표 삭제 (user)
+int deleteTicket(Ticket *t[]);// 예매 비행기표 삭제 (user)
 
 // 데이터 파일 저장
 // 모든 사용자의 예매 내역 데이터
 void saveAllUserTicketData(Ticket *t[], int index);
 
 // 현재 사용자의 예매 내역 데이터
-void saveUserTicketData(Ticket *t[], Airplane *a[], int index, char *id);
+void saveUserTicketData(Ticket *t[], int index, char *id);
 // 항공편 데이터
 
 // 검색

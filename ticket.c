@@ -73,8 +73,25 @@ int updateTicket(Ticket *t){          // 예매 정보 변경 (user/admin)
     return 1;
 }
 // Delete
-int deleteTicket(Ticket *t);// 예매 비행기표 삭제 (user)
+int deleteTicket(Ticket *t[]){      // 예매 비행기표 삭제 (user)
+    int deleteok;
+    int deleteNo;
+    printf("삭제할 번호는 (취소 :0)? ");
+    scanf("%d", &deleteNo);
+    if(deleteNo == 0) return 0;
 
+    printf("정말로 삭제하시겠습니까 (삭제 :1)? ");
+    scanf("%d", &deleteok);
+    if(deleteok == 1){
+        if(t[deleteNo-1]) free(t[deleteNo-1]);
+        t[deleteNo-1] = NULL;
+        printf("=> 삭제되었습니다.\n");
+    }else{
+        printf("=> 삭제처리가 완료되지 않았습니다.\n");
+    }
+    return 1;
+
+}
 // 데이터 파일 저장
 // 모든 사용자의 예매 내역 데이터
 // TODO 이후에 내용 추가하는 방향으로 
@@ -93,17 +110,14 @@ void saveAllUserTicketData(Ticket *t[], int index)
 
 // 현재 사용자의 예매 내역 데이터
 // TODO 상세 비행기편 데이터 index와 비교해서 저장
-void saveUserTicketData(Ticket *t[], Airplane *a[], int index, char *id)
+void saveUserTicketData(Ticket *t[], int index, char *id)
 {
     FILE *fp;
     char fileName[50];
     sprintf(fileName, "ticket_%s.txt", id);     // 문자열 형식을 지정하여 저장
     fp = fopen(fileName, "w");
 
-
     for (int i=0; i<index; i++){
-        int airplaneIndex = t[i]->airplaneIndex;
-
         if(t[i] == NULL) continue;
         fprintf(fp, "%d %c\n", t[i]->airplaneIndex, t[i]->seatType);
     }
@@ -112,10 +126,13 @@ void saveUserTicketData(Ticket *t[], Airplane *a[], int index, char *id)
 }
 
 int loadTicketData(Ticket *t[], char *id){
-    int count = 0; int i = 0;
+    int count = 0;   
+    int i = 0;
+
     FILE *fp;
     char fileName[50];
     sprintf(fileName, "ticket_%s.txt", id);
+
     fp = fopen(fileName, "rt");
     if (fp == NULL) {
         printf("=> 파일 없음\n");
