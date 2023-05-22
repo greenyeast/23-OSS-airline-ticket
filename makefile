@@ -8,3 +8,4 @@ $(TARGET) : $(OBJECTS)
 		$(CC) $(CFLAGS) -o $@ $^
 clean:
 		rm *.o airline
+		
